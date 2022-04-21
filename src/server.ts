@@ -1,23 +1,28 @@
 import express, { Application, Request, Response } from "express";
 import config from "../config";
-import todoRoute from "./routes/todos";
+import todoRoute from "./route/todos";
+import mongoose from "mongoose";
+
 const port = config.port as number;
 const host = config.host as string;
+const db = config.dbUri as string;
 
 const app: Application = express();
 
+// Connect Mongoose
+mongoose
+  .connect(db)
+  .then(() => console.log("Connected to DB!"))
+  .catch((error) => console.log(error));
+
+// Config
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-app.get("/", (req: Request, res: Response) => {
-  return res.status(200).send({
-    message: "Hello World!",
-  });
-});
 
 // Routes
 app.use("/todos", todoRoute);
 
+// Listen
 app.listen(port, host, () => {
   console.log(`Server listing at http://${host}:${port}`);
 });
