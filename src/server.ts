@@ -1,6 +1,6 @@
-import express, { Application, Request, Response } from "express";
+import express, { Application } from "express";
 import config from "../config";
-import todoRoute from "./route/todos";
+import todoRoute from "./route/todos.route";
 import mongoose from "mongoose";
 
 const port = config.port as number;
